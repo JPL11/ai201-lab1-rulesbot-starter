@@ -101,6 +101,7 @@ with gr.Blocks(
                     "How does attacking work in Risk?",
                     "What is a Wild Draw Four and when can you play it in Uno?",
                     "How does making a Suggestion work in Clue?",
+                    "When is castling legal in Chess?",
                 ],
                 cache_examples=False,
             )
@@ -116,6 +117,7 @@ with gr.Blocks(
                     <ul style="font-size:0.85rem; color:#5b21b6; list-style:none;
                                 padding:0; margin:0; line-height:1.8;">
                         <li>🏔️ Catan</li>
+                        <li>♟️ Chess</li>
                         <li>🔍 Clue</li>
                         <li>🎯 Codenames</li>
                         <li>🏦 Monopoly</li>

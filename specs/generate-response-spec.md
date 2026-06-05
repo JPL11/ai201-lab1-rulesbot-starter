@@ -42,7 +42,12 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *How will you format the retrieved chunks before passing them to the LLM? Describe the structure — not the code. Consider: will you label chunks by game? Include distance scores? Separate chunks with delimiters?*
 
 ```
-[your answer here]
+Each chunk is prefixed with a source label on its own line —
+"[Source: <Game> rulebook]" — followed by the raw chunk text, with chunks
+separated by blank lines. The label is what lets the model attribute its
+answer to the right game (and is required for the citation instruction to
+work). Distance scores are NOT included: they're meaningless to the model
+and risk it hedging ("this result is only loosely relevant...").
 ```
 
 ---
@@ -52,7 +57,11 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *Write the exact system prompt instruction you will use to prevent the model from answering beyond the retrieved text. This is the most important design decision in this function.*
 
 ```
-[your answer here]
+Answer the user's question using ONLY the rule text provided below the
+question. Do not draw on outside knowledge or fill in gaps from what you know
+about board games — even if you are confident you know the answer. If the
+provided text does not contain the answer, reply exactly: "I couldn't find
+that in the loaded rule books." Do not guess.
 ```
 
 ---
@@ -62,7 +71,9 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *Write the exact instruction you will use to tell the model to identify which game its answer comes from.*
 
 ```
-[your answer here]
+Always state which game's rulebook your answer comes from, e.g. "According to
+the Catan rules, ...". If the provided text is only partially relevant, answer
+the part you can and say what is missing.
 ```
 
 ---
@@ -72,7 +83,12 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *What should the response say when the answer isn't found in the loaded rule books? Write the exact fallback message.*
 
 ```
-[your answer here]
+Two distinct fallbacks:
+1. retrieved_chunks is empty (handled in code, no API call):
+   "I couldn't find anything relevant in the loaded rule books. Try rephrasing
+   your question — or check that your ingestion pipeline is working."
+2. Chunks were retrieved but don't contain the answer (handled by the prompt):
+   "I couldn't find that in the loaded rule books."
 ```
 
 ---
@@ -82,7 +98,13 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *`retrieved_chunks` may include chunks with high distance scores (weak relevance). Will you filter these out before building context, pass them all in, or handle them another way? What are the tradeoffs?*
 
 ```
-[your answer here]
+Pass all chunks in and rely on the grounding instruction to refuse when the
+text doesn't answer the question. With only k=3 short chunks the noise risk
+is small, and a distance cutoff is hard to tune (correct matches in this
+corpus already score 0.37–0.47). Tradeoff: an irrelevant chunk in context
+could distract the model toward the wrong game — if that shows up in testing,
+add a filter here (e.g. drop chunks with distance > 0.7) rather than in
+retrieve(), so the search function stays a pure ranking.
 ```
 
 ---
@@ -92,7 +114,15 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 *Describe how you will structure the messages list for the API call — what goes in the system message vs. the user message?*
 
 ```
-[your answer here]
+Two messages:
+- system: the standing behavior rules — RulesBot persona, grounding
+  instruction, exact-refusal fallback, citation instruction. Nothing
+  query-specific lives here.
+- user: "Question: <query>" followed by "Rule text:" and the formatted,
+  source-labeled chunks. Putting the context in the user message (after the
+  question) keeps the system prompt stable across calls and makes it
+  unambiguous that "the rule text provided below the question" refers to
+  this turn's retrieved chunks.
 ```
 
 ---
@@ -104,14 +134,23 @@ Returns a fallback string (not an error) when `retrieved_chunks` is empty.
 **Test query and response:**
 
 ```
-Query: [your test query]
-Response: [abbreviated response]
-Correctly grounded? [yes / no]
-Cited the right game? [yes / no]
+Query: How do you get out of Jail in Monopoly?
+Response: "According to the Monopoly rules, to get out of Jail, you can: pay a
+$50 fine before rolling on any of your next three turns, use a Get Out of Jail
+Free card, or roll doubles on any of your three turns in Jail. ..."
+Correctly grounded? Yes — the answer says "three turns", matching docs/monopoly.txt
+verbatim, where common Monopoly knowledge (and the lab handout) says "two
+turns". The model demonstrably answered from the document, not training data.
+Cited the right game? Yes ("According to the Monopoly rules").
+Grounding probe: "What are the rules of chess castling?" → "I couldn't find
+that in the loaded rule books." — refuses correctly for out-of-corpus questions.
 ```
 
 **One thing you changed from your original spec after seeing the actual output:**
 
 ```
-[your answer here]
+Added the "even if you are confident you know the answer" clause to the
+grounding instruction — board game rules are heavily represented in training
+data, so the model needs an explicit instruction that its own knowledge is
+off-limits, not just a positive "use the text below" framing.
 ```

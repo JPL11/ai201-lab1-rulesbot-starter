@@ -116,11 +116,17 @@ handle these cases better, at the cost of more implementation complexity.
 **Actual chunk count produced across all 8 rule books:**
 
 ```
-[your answer here]
+149 chunks across all 8 rule books (printed at ingestion:
+"Stored 149 total chunks in the vector database"), averaging ~19 chunks
+per rulebook.
 ```
 
 **One thing that surprised you or didn't match your expectations:**
 
 ```
-[your answer here]
+The character-based sliding window cuts mid-word and
+mid-sentence — retrieved chunks often start with fragments like "x, that hex
+produces...". The 50-char overlap mostly compensates (the complete sentence
+exists in the neighboring chunk), but a sentence-boundary-aware splitter
+would produce cleaner chunks at roughly the same count.
 ```

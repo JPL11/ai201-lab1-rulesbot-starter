@@ -68,5 +68,19 @@ def retrieve(query, n_results=N_RESULTS):
     if _collection.count() == 0:
         return []
 
-    # Your implementation here.
-    return []
+    results = _collection.query(
+        query_texts=[query],
+        n_results=n_results,
+        include=["documents", "metadatas", "distances"],
+    )
+
+    # query() returns one inner list per query string — we send exactly one
+    # query, so index [0] flattens each field to the actual result list.
+    return [
+        {"text": text, "game": meta["game"], "distance": distance}
+        for text, meta, distance in zip(
+            results["documents"][0],
+            results["metadatas"][0],
+            results["distances"][0],
+        )
+    ]

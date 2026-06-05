@@ -1,0 +1,37 @@
+CHESS — OFFICIAL RULES SUMMARY
+
+OVERVIEW
+Chess is a two-player strategy game played on an 8x8 board of alternating light and dark squares. One player commands the white pieces, the other the black pieces. The goal is to checkmate the opponent's king — to attack it so that it has no legal way to escape capture. White always moves first, and players alternate turns moving one piece at a time.
+
+SETUP
+Place the board so that each player has a light square in their near right corner. Each player's pieces fill their two nearest rows. The back row, from left to right for White: rook, knight, bishop, queen, king, bishop, knight, rook. The queen always starts on a square of her own color (white queen on a light square, black queen on a dark square). The front row holds the eight pawns.
+
+PIECE MOVEMENT
+The rook moves any number of squares horizontally or vertically. The bishop moves any number of squares diagonally. The queen combines rook and bishop movement, moving any number of squares in any straight line. The king moves exactly one square in any direction. The knight moves in an L-shape — two squares in one direction, then one square perpendicular — and is the only piece that may jump over other pieces. No piece other than the knight may pass through occupied squares.
+
+PAWN MOVEMENT
+Pawns move one square straight forward and may never move backward. On a pawn's very first move, it may instead advance two squares. Pawns capture differently than they move: one square diagonally forward. A pawn may never capture straight ahead.
+
+CAPTURING
+A piece captures by moving onto a square occupied by an enemy piece, which is removed from the board. You may never capture or move onto a square occupied by your own piece.
+
+CASTLING
+Castling is a special move involving the king and one rook, and is the only move where two pieces move at once. The king moves two squares toward the rook, and the rook jumps to the square the king passed over. Castling is only legal if: neither the king nor that rook has moved earlier in the game, the squares between them are empty, the king is not currently in check, and the king does not pass through or land on a square attacked by an enemy piece. Castling toward the closer rook is called kingside castling; toward the farther rook, queenside castling.
+
+EN PASSANT
+If a pawn advances two squares on its first move and lands directly beside an enemy pawn, that enemy pawn may capture it as if it had moved only one square. This capture, called en passant, must be made immediately on the very next move or the right to do so is lost.
+
+PAWN PROMOTION
+When a pawn reaches the farthest row from its starting position, it must immediately be promoted to a queen, rook, bishop, or knight of the same color. Promotion is not limited by captured pieces — a player may have multiple queens. Most players choose a queen, the strongest piece.
+
+CHECK AND CHECKMATE
+A king is in check when an enemy piece attacks the square it stands on. A player whose king is in check must immediately address it by moving the king, blocking the attack, or capturing the attacking piece. It is illegal to make any move that leaves your own king in check. If a king is in check and no legal move can remove the threat, it is checkmate and the game ends immediately — the attacking player wins.
+
+DRAWS
+The game is a draw in several situations: stalemate, where the player to move has no legal moves but is not in check; threefold repetition, where the same position occurs three times with the same player to move; the fifty-move rule, where fifty consecutive moves pass without a pawn move or capture; insufficient material, where neither side has enough pieces to deliver checkmate (such as king versus king); or by mutual agreement between the players.
+
+TOUCH-MOVE RULE
+In formal play, if a player touches one of their own pieces, they must move it if a legal move exists. If a player touches an enemy piece, they must capture it if legally possible. A player who wishes to adjust a piece on its square must first announce it (traditionally "j'adoube" or "I adjust").
+
+WINNING
+A player wins by checkmating the opponent's king. A player may also win if the opponent resigns, or in timed games, if the opponent runs out of time while the winner has sufficient material to checkmate.
