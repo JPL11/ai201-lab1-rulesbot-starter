@@ -89,7 +89,7 @@ python app.py
 ## Project Structure
 
 ```
-ai201-lab1-rulesbot-starter/
+rulesbot/
 ├── app.py                   # Gradio UI and startup/ingestion logic
 ├── config.py                # All tunables: models, paths, chunk + retrieval params
 ├── ingest.py                # Document loading + sliding-window chunking
